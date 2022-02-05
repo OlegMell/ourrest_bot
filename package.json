@@ -13,15 +13,10 @@
     "npm": "8.1"
   },
   "author": "Oleh Melnyk <oleg.mel123@gmail.com>",
-  "license": "ISC",
   "dependencies": {
     "dotenv": "^14.2.0",
     "mongoose": "^6.1.7",
     "nodemon": "^2.0.15",
     "telegraf": "^4.6.0"
-  },
-  "devDependencies": {
-    "tslint": "^5.12.1",
-    "typescript": "^3.3.3"
   }
 }
