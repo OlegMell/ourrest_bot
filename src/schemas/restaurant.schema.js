@@ -13,7 +13,7 @@ const RestaurantSchema = new Schema({
         type: String,
         default: 'Днепр'
     },
-    menu: [{ MenuItemSchema }],
+    menu: [ { type: Schema.Types.ObjectId, ref: 'MenuItem' } ],
     password: String
 });
 
