@@ -58,20 +58,20 @@ async function main() {
 
         switch (action) {
             case 'addFood':
-                ctx.reply('Введите в формате\nНазвание кафе - Название Блюда - Цена (грн.) - Оценка (0-10)');
+                ctx.reply('Введите данные в формате:\nНазвание кафе - Названия Блюд - Комментарий - Цена по чеку (грн.) - Оценка (0-10)');
 
                 bot.on('text', (ctx) => {
 
                     currentFoodItem = ctx.message.text.split('-');
 
-                    const [ rest, food, price, rate ] = currentFoodItem;
+                    const [ rest, food, comment, price, rate ] = currentFoodItem;
 
                     if (currentFoodItem.length < 2 || (!rest || !food)) {
                         ctx.reply('Вы что-то забыли ввести, проверьте, пожалуйста');
                         return;
                     }
 
-                    const itemResult = `Вы добавляете:\nКафе: ${rest?.trim()}\nБлюдо: ${food?.trim()}\nЦена: ${price ? price.trim() + ' грн.' : 'Не указана'}\nОценка: ${rate?.trim() || 'Не указана'}`;
+                    const itemResult = `Вы добавляете:\nКафе: ${rest?.trim()}\nБлюдо: ${food?.trim()}\nКомментарий: ${ comment ? comment.trim() : 'Не указано' }\nЦена: ${price ? price.trim() + ' грн.' : 'Не указана'}\nОценка: ${rate?.trim() || 'Не указана'}`;
                     ctx.reply(itemResult);
 
                     ctx.reply(
@@ -96,8 +96,9 @@ async function main() {
 
                     const menuItem = await MenuItem.create({
                         name: currentFoodItem[1]?.trim() || '',
-                        price: currentFoodItem[2]?.trim() || 0,
-                        rate: currentFoodItem[3]?.trim() || ''
+                        comment: currentFoodItem[2]?.trim() || '',
+                        price: currentFoodItem[3]?.trim() || 0,
+                        rate: currentFoodItem[4]?.trim() || '',
                     });
 
                     let restaurant = await Restaurant.findOne({
@@ -177,7 +178,7 @@ async function main() {
         if (foundRest) {
 
             foundRest?.menu?.forEach(menuItem => {
-                foodList = `${foundRest?.name}\nБлюдо: ${menuItem?.name}\nЦена: ${menuItem?.price ? menuItem?.price + ' грн.' : 'Не установлена'}\nОценка: ${menuItem?.rate || 'Не установлена'}\n`
+                foodList = `${foundRest?.name}\nБлюдо: ${menuItem?.name}\nКомментарий: ${ menuItem?.comment ? menuItem?.comment.trim() : 'Не указано' }\nЦена: ${menuItem?.price ? menuItem?.price + ' грн.' : 'Не установлена'}\nОценка: ${menuItem?.rate || 'Не установлена'}\n`
                 ctx.reply(foodList);
             });
 
